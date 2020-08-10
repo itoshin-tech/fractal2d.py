@@ -19,6 +19,12 @@ size 65x65, H=10.0 Seed=2 で生成した場合
 size 513x513, H=10.0 Seed=2 で生成した場合
 ![3](./img/09_10_2.png)
 
+size 513x513, H=10.0 Seed=2 で周期境界条件で生成したとき
+（上下左右がつながっている）
+![4](./img/09_10_2_periodic.png)
+
+
+
 自己相似の性質があるので、配列サイズを大きくしても似たような地形となります。
 
 
@@ -38,7 +44,7 @@ $ python fractal2d.py
 
 または、ターミナルから、
 ```bash
-$ python fractal2d.py 5 10 1 # [size_level] [height] [seed]
+$ python fractal2d.py 5 10 1 1# [size_level] [height] [periodic] [seed]
 ```
 
 または、pythonのコードで、
@@ -47,9 +53,11 @@ import fractal2d
 
 size_level = 5 # 自然数 size = size_level**2 + 1 となる
 height = 10.0 # 正の実数
+seed=1        # 乱数のシード値
+periodic=True # True / False 周期境界条件を入れるかどうか
 
 ft = fractal2d.Fractal2d()
-ff = ft.generate(size_level, height=height)
+ff = ft.generate(size_level, height=height, seed=seed, pbc=periodic)
 # ffが出力の2次元配列
 ```
 
