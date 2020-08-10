@@ -73,20 +73,40 @@ class Fractal2d:
 # ------- main 
 
 if __name__ == '__main__':
+    import sys
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
+    size_level = 7
+    height = 10
+    seed = None
+
+    """
+    ## usage
+    > python fractal2d.py [size_level] [height] [seed]
+    """
+
+    argv = sys.argv
+    if len(argv) > 1:
+        size_level = int(argv[1])
+
+    if len(argv) > 2:
+        height = float(argv[2])
+
+    if len(argv) > 3:
+        seed = int(argv[3])
+    
+    if seed is not None:
+        np.random.seed(seed)
+
     ft = Fractal2d()
-    size_level = 6
-    height = 5
     ff = ft.generate(size_level, height=height)
     ss = ff.shape[0]
-
+    
     # 描画
     fig = plt.figure(figsize=(10, 5))
     ax = fig.add_subplot(1, 4, 1)
     ax.imshow(ff, cmap='gist_earth')
-    ax.set_title('size = %d x %d' % (ss, ss))
 
     ax2 = fig.add_subplot(1, 4, (2, 4), projection='3d')
     x = np.linspace(-10, 10, ss)
@@ -97,5 +117,8 @@ if __name__ == '__main__':
     ax2.set_ylim(10, -10)
     ax2.view_init(40 ,-80)
     ax2.axis("off")
-    ax.set_title('size = %d x %d, H=%.1f' % (ss, ss, height))
+    tt = 'size = %d x %d, H=%.1f' % (ss, ss, height)
+    if seed is not None:
+        tt += ', seed=%d' % seed
+    ax2.set_title(tt)
     plt.show()
