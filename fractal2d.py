@@ -24,10 +24,10 @@ class Fractal2d:
         si = np.array([0, 0], dtype=np.uint8)
 
         # フラクタル生成
-        self._frac(si, nn, height=height)
+        self._fractal(si, nn, height=height)
         return self.ff
 
-    def _frac(self, si, nn=3, height=0.1):
+    def _fractal(self, si, nn=3, height=0.1):
         """
         si: 生成する領域の左上の座標
         nn: 生成するサイズレベル (サイズは 2**nn + 1)
@@ -68,7 +68,7 @@ class Fractal2d:
         for i in range(4):
             ssi = si + self.DI[i] * (ss - 1) * 0.5
             ssi = ssi.astype(np.int)
-            self._frac(ssi, nn - 1, height=height)
+            self._fractal(ssi, nn - 1, height=height)
 
 # ------- main 
 
@@ -77,13 +77,17 @@ if __name__ == '__main__':
     from mpl_toolkits.mplot3d import Axes3D
 
     ft = Fractal2d()
-    ff = ft.generate(6)
+    size_level = 6
+    height = 5
+    ff = ft.generate(size_level, height=height)
     ss = ff.shape[0]
 
     # 描画
     fig = plt.figure(figsize=(10, 5))
     ax = fig.add_subplot(1, 4, 1)
     ax.imshow(ff, cmap='gist_earth')
+    ax.set_title('size = %d x %d' % (ss, ss))
+
     ax2 = fig.add_subplot(1, 4, (2, 4), projection='3d')
     x = np.linspace(-10, 10, ss)
     y = np.linspace(-10, 10, ss)
@@ -93,4 +97,5 @@ if __name__ == '__main__':
     ax2.set_ylim(10, -10)
     ax2.view_init(40 ,-80)
     ax2.axis("off")
+    ax.set_title('size = %d x %d, H=%.1f' % (ss, ss, height))
     plt.show()
