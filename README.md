@@ -1,6 +1,7 @@
 # fractal2d.py
 
 フラクタル構造を持った地形を自動生成します。
+wikipediaに掲載されている[ダイヤモンドアルゴリズム](https://en.wikipedia.org/wiki/Diamond-square_algorithm)を再帰関数を使って実装しました。
 
 # DEMO　
 
@@ -49,15 +50,13 @@ height = 10.0 # 正の実数
 
 ft = fractal2d.Fractal2d()
 ff = ft.generate(size_level, height=height)
-ss = ff.shape[0]
-
+# ffが出力の2次元配列
 ```
 
 
 # Note
 
-size_level は大きくすると処理が重くなるので、
-7ぐらいからは1ずつ増やして試した方がよいです。
+size_level は大きくすると処理が重くなるので、7以上は1ずつ増やして試した方がよいです。
 
 # Author
 
