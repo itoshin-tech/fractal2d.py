@@ -3,11 +3,28 @@
 フラクタル構造を持った地形を自動生成します。
 wikipediaに掲載されている[ダイヤモンドアルゴリズム](https://en.wikipedia.org/wiki/Diamond-square_algorithm)を再帰関数を使って実装しました。
 
-# DEMO　
+# DEMO1
+main.py を実行したときのデモ
+以下の fractal2d.py で生成した地形を鳥観図でスクロールさせています。
+
+```bash
+$ python main.py
+```
+
+![0](./img/flying_terrain.gif)
+
+
+# DEMO2
+fractal2d.py を実行したときのデモ
+詳しい使い方は下のUsage 参照
+```bash
+$ python fractal2d.py
+```
 
 1辺が、$2^n + 1$ ($n$は自然数)となる大きさの2次元配列を生成します。要素は高さに対応します。
 
 size 17x17, H=10.0 Seed=2 で生成した場合
+
 
 ![1](./img/04_10_2.png)
 
@@ -34,7 +51,7 @@ size 513x513, H=10.0 Seed=2 で周期境界条件で生成したとき
 * matplotlib (デモ表示用)
 
 
-# Usage
+# Usage of fractal2d
 
 クローン後、ターミナルから、
 
