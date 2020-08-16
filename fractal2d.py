@@ -12,13 +12,13 @@ class Fractal2d:
         # 左上を基準として、左上、右上、左下、右下の方向ベクトルを定義
         self.DI = np.array([[0, 0], [1, 0], [0, 1], [1, 1]], dtype=np.uint8)  # dx, dy
     
-    def generate(self, nn=5, height=5, pbc=False, seed=None):
+    def generate(self, nn=5, height=5, pbc=None, seed=None):
         """
         Parameters
         ----------
         nn : size level, size = 2**nn + 1
         height: height
-        pbc: Periodic boundary condition
+        pbc: Periodic boundary condition, None, 'x', 'y', 'xy'
 
         Returens
         --------
@@ -41,12 +41,16 @@ class Fractal2d:
         # フラクタル生成
         self._fractal(si, nn, height=height)
 
-        if pbc is True:
-            self.ff[ss - 1, :] = self.ff[0, :]
-            self.ff[:, ss - 1] = self.ff[:, 0]
+        if pbc is not None:
+            if pbc == 'xy':
+                self.ff[ss - 1, :] = self.ff[0, :]
+                self.ff[:, ss - 1] = self.ff[:, 0]
+            elif pbc == 'y':
+                self.ff[:, ss - 1] = self.ff[:, 0]
+            elif pbc == 'x':
+                self.ff[ss - 1, :] = self.ff[0, :]
+            
             self.ff[1:ss - 1, 1:ss -1] = np.zeros((ss - 2, ss - 2))
-            import pdb
-            pdb.set_trace
             self._fractal(si, nn, height=height)
         
         return self.ff
@@ -117,10 +121,10 @@ if __name__ == '__main__':
     if len(argv) > 2:
         height = float(argv[2])
 
-    pbc = False
+    pbc = None
     if len(argv) > 3:
         if int(argv[3]) == 1:
-            pbc = True
+            pbc = 'xy'
 
     if len(argv) > 4:
         seed = int(argv[4])
