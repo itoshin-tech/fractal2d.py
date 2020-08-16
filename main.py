@@ -102,9 +102,10 @@ def pos2uv_bycam(pos_obj, pos_cam, rot_cam):
 
 def drawTerrain(uu, vv, zz, ffs):
     img = np.zeros((V_MAX, U_MAX, 3), dtype=np.uint8)
-    for i in range(ss - 1):
+    # for i in range(ss - 1):
+    for i in range(ss - 2, -1, -1):
         for j in range(ss - 1):
-            minffs = min(ffs[i, j], ffs[i, j + 1], ffs[i + 1, j])
+            minffs = max(ffs[i, j], ffs[i, j + 1], ffs[i + 1, j])
             minzz = min(zz[i, j], zz[i, j + 1], zz[i + 1, j])
             if minzz > Z_SCR:
                 if minffs <=0:
@@ -125,7 +126,7 @@ def drawTerrain(uu, vv, zz, ffs):
 if __name__ == '__main__':
 
     size_level = 6
-    height = 2.5
+    height = 2
     seed = None
 
     frac= fractal2d.Fractal2d()
@@ -137,12 +138,14 @@ if __name__ == '__main__':
     zzs = zzs.reshape(-1)
     nn = ss * ss
 
-    px, py, pz = 0, 8.0, -9.2
-    rx, ry, rz = -59, 0, 0
+    # px, py, pz = 0, 8.0, -9.2
+    # rx, ry, rz = -59, 0, 0
+    px, py, pz = 0, 3.4, -9.2
+    rx, ry, rz = -11, 0, 0
     pv = 0.2
     rv = 2
 
-    TT = ss * 2
+    TT = ss
     while True:
         # make terrain
         ffs = frac.generate(size_level, height, pbc='x', seed=seed)
@@ -173,7 +176,7 @@ if __name__ == '__main__':
 
             # show and contrall
             cv2.imshow('img', img)
-            INPUT = cv2.waitKey(1) & 0xFF
+            INPUT = cv2.waitKey(10) & 0xFF
             if INPUT == ord('q'):
                 sys.exit()
             if INPUT == ord('e'):
